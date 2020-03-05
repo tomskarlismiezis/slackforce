@@ -57,7 +57,9 @@ exports.oauthCallback = (req, res) => {
             console.log(error);
             return res.send("error");
         }
+        console.log('start body');
         console.log(body);
+        console.log('end body');
         mappings[slackUserId] = JSON.parse(body);
         let html = `
             <html>
