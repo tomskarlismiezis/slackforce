@@ -2,16 +2,26 @@
 
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
+    crypto = require("crypto"),
     WHOAMI_TOKEN = process.env.SLACK_WHOAMI_TOKEN;
 
 exports.execute = (req, res) => {
 
-    if (req.body.token != WHOAMI_TOKEN) {
-        console.log("Invalid token");
+    var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
+    var timestamp = req.headers['X-Slack-Request-Timestamp'];
+    if (Math.abs(Date.now() - timestamp) > 60*5*1000){
+        return;
+    }
+    var requestBody = req.body();
+    var version = 'v0';
+    var baseString = version + ':' + timestamp + ':' + requestBody;
+    var hashedString = version + '=' + hmac.digest('hex');
+
+    if (hashedString != req.headers['X-Slack-Signature']) {
         res.send("Invalid token");
         return;
     }
-
+    
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId);
 
