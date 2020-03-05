@@ -3,7 +3,7 @@
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
     crypto = require("crypto"),
-    WHOAMI_TOKEN = process.env.SLACK_WHOAMI_TOKEN;
+    SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
 
@@ -21,7 +21,7 @@ exports.execute = (req, res) => {
         res.send("Invalid token");
         return;
     }
-    
+
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId);
 
