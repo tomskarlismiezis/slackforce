@@ -2,11 +2,21 @@
 
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
-    CASE_TOKEN = process.env.SLACK_CASE_TOKEN;
+    crypto = require("crypto"),
+    SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
+    var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
+    var timestamp = req.headers['X-Slack-Request-Timestamp'];
+    if (Math.abs(Date.now() - timestamp) > 60*5*1000){
+        return;
+    }
+    var requestBody = req.body();
+    var version = 'v0';
+    var baseString = version + ':' + timestamp + ':' + requestBody;
+    var hashedString = version + '=' + hmac.digest('hex');
 
-    if (req.body.token != CASE_TOKEN) {
+    if (hashedString != req.headers['X-Slack-Signature']) {
         res.send("Invalid token");
         return;
     }
@@ -16,6 +26,9 @@ exports.execute = (req, res) => {
         params = req.body.text.split(":"),
         subject = params[0],
         description = params[1];
+        for (var i = 2;i<params.length;i++){
+            description += ':' + params[i]; // in case there are :'s in description
+        }
 
     force.create(oauthObj, "Case",
         {

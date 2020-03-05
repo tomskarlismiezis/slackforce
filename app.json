@@ -4,11 +4,11 @@
   "env": {
     "SF_CLIENT_ID": {
         "description": "Consumer key of your Salesforce Connected App",
-        "value":""
+        "value":"3MVG92u_V3UMpV.gutL3g.Xzhffx0_18qBSPtlLHxrqsyHa5f4ZXMGMhfie9WoH5I17KcY5VPYB6_P7VbpHSv"
     },
     "SF_CLIENT_SECRET": {
         "description": "Consumer secret of your Salesforce Connected App",
-        "value":""
+        "value":"44F9127FABA72BBF44746E6417048196FF845796FCF6F09686290498AB268F89"
     },
     "SF_USER_NAME": {
         "description": "Salesforce username for your integration user",
@@ -47,6 +47,11 @@
         "description": "Slack token for the whoami slash command",
         "value":"",
         "required":false
+    },
+    "SLACK_SIGNING_SECRET": {
+        "description": "Slack token for the whoami slash command",
+        "value":"977ee7ea650961b5d570d8bcf14e8e03",
+        "required":true
     }
   }
 }
