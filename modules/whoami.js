@@ -12,7 +12,7 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp) > 60*5*1000){
         return;
     }
-    var requestBody = req.body();
+    var requestBody = req.body;
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
     var hashedString = version + '=' + hmac.digest('hex');
