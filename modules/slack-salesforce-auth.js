@@ -53,10 +53,6 @@ exports.oauthCallback = (req, res) => {
     };
 
     request.post(options, function (error, response, body) {
-        console.log(options);
-        console.log(error);
-        console.log(response);
-        console.log(body);
         if (error) {
             return res.send("error");
         }
