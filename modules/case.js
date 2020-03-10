@@ -17,7 +17,7 @@ exports.execute = (req, res) => {
     console.log(JSON.stringify(requestBody));
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
-    hmac.write(baseString);
+    hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
     if (hashedString != req.headers['x-slack-signature']) {
         console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
