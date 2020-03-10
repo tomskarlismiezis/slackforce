@@ -9,10 +9,10 @@ exports.execute = (req, res) => {
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
     console.log(JSON.stringify(req.headers));
     var timestamp = req.headers['x-slack-request-timestamp'];
-    console.log(timestamp);
-    if (Math.abs(Date.now() - timestamp) > 60*5*1000){
-        return;
-    }
+    console.log(timestamp + ' != ' + Date.now());
+    //if (Math.abs(Date.now() - timestamp) > 60*5*1000){
+    //    return;
+    //}
     var requestBody = req.body;
     console.log(JSON.stringify(requestBody));
     var version = 'v0';
