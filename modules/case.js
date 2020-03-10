@@ -9,7 +9,7 @@ exports.execute = (req, res) => {
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
     console.log(JSON.stringify(req.headers));
     var timestamp = req.headers['x-slack-request-timestamp'];
-    console.log(timestamp + ' != ' + Date.now());
+    console.log(timestamp*1000 + ' != ' + Date.now());
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
@@ -17,6 +17,7 @@ exports.execute = (req, res) => {
     console.log(JSON.stringify(requestBody));
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
+    console.log(baseString);
     hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
     if (hashedString != req.headers['x-slack-signature']) {
