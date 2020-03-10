@@ -13,8 +13,8 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = req.body;
-    console.log(JSON.stringify(requestBody));
+    var requestBody = JSON.stringify(req.body);
+    console.log(requestBody);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
     console.log(baseString);
