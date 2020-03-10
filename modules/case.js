@@ -7,13 +7,12 @@ let auth = require("./slack-salesforce-auth"),
 
 exports.execute = (req, res) => {
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
-    console.log(JSON.stringify(req.headers));
     var timestamp = req.headers['x-slack-request-timestamp'];
     console.log(timestamp*1000 + ' != ' + Date.now());
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = JSON.stringify(req.body);
+    var requestBody = convertToString(req.body);
     console.log(requestBody);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
@@ -63,5 +62,21 @@ exports.execute = (req, res) => {
                 res.send("An error as occurred");
             }
         });
+
+
+    function convertToString(input){
+        var result = '';
+        var keys = [];
+        for (var i in input){
+            keys.push(i);
+        }
+        for (var i = 0; i<keys.length;i++){
+            result += keys[i]+'='+input[keys[i]];
+            if (i+1 != keys.length){
+                result += '&';
+            }
+        }
+        return result;
+    }
 
 };
