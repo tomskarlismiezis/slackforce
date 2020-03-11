@@ -45,4 +45,20 @@ exports.execute = (req, res) => {
                 res.send("An error as occurred");
             }
         });
+
+
+        function convertToString(input){
+            var result = '';
+            var keys = [];
+            for (var i in input){
+                keys.push(i);
+            }
+            for (var i = 0; i<keys.length;i++){
+                result += keys[i]+'='+encodeURIComponent(input[keys[i]]).replace(/%26/g,'&');;
+                if (i+1 != keys.length){
+                    result += '&';
+                }
+            }
+            return result;
+        }
 };
