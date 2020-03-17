@@ -29,7 +29,7 @@ exports.execute = (req, res) => {
         oauthObj = auth.getOAuthObject(slackUserId),
         params = req.body;
 
-    res.send(params);
+    console.log(params);
 
 
     /*force.create(oauthObj, "Slack_Conversation__c",
