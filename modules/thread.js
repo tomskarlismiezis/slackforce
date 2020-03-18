@@ -27,7 +27,7 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        params = req.body;
+        params = JSON.parse(req.body.payload);
 
     console.log(params);
 
