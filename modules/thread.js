@@ -6,6 +6,7 @@ let auth = require("./slack-salesforce-auth"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
+    console.log('thread being executed');
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
     var timestamp = req.headers['x-slack-request-timestamp'];
     //console.log(timestamp*1000 + ' != ' + Date.now());
