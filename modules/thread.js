@@ -69,7 +69,11 @@ exports.execute = (req, res) => {
             keys.push(i);
         }
         for (var i = 0; i<keys.length;i++){
-            result += keys[i]+'='+encodeURIComponent(input[keys[i]]).replace(/%26/g,'&');;
+            if (keys[i] == 'response_url'){
+                result += keys[i]+'='+encodeURIComponent(input[keys[i]]).replace(/%26/g,'&');;
+            } else {
+                result += keys[i]+'='+input[keys[i]];
+            }
             if (i+1 != keys.length){
                 result += '&';
             }
