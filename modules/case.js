@@ -16,11 +16,11 @@ exports.execute = (req, res) => {
     //console.log(requestBody);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
-    //console.log(baseString);
+    console.log(baseString);
     hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
     if (hashedString != req.headers['x-slack-signature']) {
-        //console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
+        console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
         res.send("Invalid token");
         return;
     }
