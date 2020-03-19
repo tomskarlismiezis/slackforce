@@ -13,7 +13,7 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = convertToString(req.body);
+    var requestBody = convertToString(req.body.payload);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
     console.log(baseString);
@@ -27,25 +27,26 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        params = JSON.parse(req.body.payload);
+        payload = JSON.parse(req.body.payload);
 
-    console.log(params);
+    console.log(payload);
+    let replies = payload.message.replies;
+    for (var repl in replies){
+        console.log(replies);
+    }
 
-
-    /*force.create(oauthObj, "Slack_Conversation__c",
+    force.create(oauthObj, "Slack_Conversation__c",
         {
-            subject: subject,
-            description: description,
-            origin: "Slack",
-            status: "New"
+            Channel__c: payload.channel.name,   
+            Sender__c: payload.user.name,
+            Timestamp__c: payload.message.ts.split('.')[0],
+            Message_Text__c: payload.message.text
         })
         .then(data => {
             let fields = [];
-            fields.push({title: "Subject", value: subject, short:false});
-            fields.push({title: "Description", value: description, short:false});
-            fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + data.id, short:false});
+            fields.push({title: "make sure to add the correct case in Salesforce:", value: oauthObj.instance_url + "/" + data.id, short:false});
             let message = {
-                text: "A new case has been created:",
+                text: 'Message created, ',
                 attachments: [
                     {color: "#F2CF5B", fields: fields}
                 ]
@@ -59,7 +60,7 @@ exports.execute = (req, res) => {
             } else {
                 res.send("An error as occurred");
             }
-        });*/
+        });
 
 
     function convertToString(input){
