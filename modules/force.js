@@ -42,6 +42,7 @@ let sfrequest = (oauth, path, options) => new Promise((resolve, reject) => {
                 reject(error);
             }
         } else {
+            console.log('no errors');
             resolve(body);
         }
     });
