@@ -13,10 +13,10 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = convertToString(req.body.payload);
+    var requestBody = convertToString(req.body);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
-    console.log(baseString);
+    //console.log(baseString);
     hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
     //if (hashedString != req.headers['x-slack-signature']) {
@@ -32,7 +32,7 @@ exports.execute = (req, res) => {
     console.log(payload);
     let replies = payload.message.replies;
     for (var repl in replies){
-        console.log(replies);
+        //console.log(replies);
     }
 
     force.create(oauthObj, "Slack_Conversation__c",
@@ -40,7 +40,8 @@ exports.execute = (req, res) => {
             Channel__c: payload.channel.name,   
             Sender__c: payload.user.name,
             Timestamp__c: payload.message.ts.split('.')[0],
-            Message_Text__c: payload.message.text
+            Message_Text__c: payload.message.text,
+            Insertion_Batch__c: payload.action_ts
         })
         .then(data => {
             let fields = [];
