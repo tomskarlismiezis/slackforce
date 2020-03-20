@@ -116,10 +116,9 @@ exports.execute = (req, res) => {
         if (crypto.timingSafeEqual(
                    Buffer.from(mySignature, 'utf8'),
                    Buffer.from(slackSignature, 'utf8'))
-           ) {
-               next();
-        } else {
-               res = true;
+           ) 
+           {
+            res = true;
         }
         return res;
      }
