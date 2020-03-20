@@ -16,9 +16,6 @@ exports.execute = (req, res) => {
         return;
     }
     
-    let payload = JSON.parse(req.body.payload),
-        slackUserId = payload.user.id,
-        oauthObj = auth.getOAuthObject(slackUserId);
     //console.log(payload);
 
     let requestBody = convertToString(payload),
@@ -34,7 +31,10 @@ exports.execute = (req, res) => {
     }
 
     */
-
+    
+    let payload = JSON.parse(req.body.payload),
+        slackUserId = payload.user.id,
+        oauthObj = auth.getOAuthObject(slackUserId);
     
     if (!verif.signVerification(req)){
         console.log('verification failed');
