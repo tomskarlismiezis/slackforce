@@ -77,6 +77,7 @@ exports.execute = (req, res) => {
                 result += '&';
             }
         }
+        console.log(result);
         return result;
     }
 
