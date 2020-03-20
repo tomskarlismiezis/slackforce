@@ -33,12 +33,14 @@ let sfrequest = (oauth, path, options) => new Promise((resolve, reject) => {
     options.headers["Authorization"] = "Bearer " + oauth.access_token;
 
     request(options, function (error, response, body) {
+        console.log('in request()');
         if (error) {
             console.log(error);
             if (response.statusCode === 401) {
                 // Could implement refresh token and retry logic here
                 reject({code: 401});
             } else {
+                console.log(error);
                 reject(error);
             }
         } else {
