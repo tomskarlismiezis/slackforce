@@ -3,9 +3,11 @@
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
     crypto = require("crypto"),
+    verif = require("./verifying"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
+    /*
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
     var timestamp = req.headers['x-slack-request-timestamp'];
     //console.log(timestamp*1000 + ' != ' + Date.now());
@@ -22,6 +24,12 @@ exports.execute = (req, res) => {
     if (hashedString != req.headers['x-slack-signature']) {
         console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
         res.send("Invalid token");
+        return;
+    }
+    */
+   //verif.
+    if (!verif.signVerification(req)){
+        console.log('verification failed');
         return;
     }
 
