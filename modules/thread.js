@@ -59,7 +59,7 @@ exports.execute = (req, res) => {
         {
             Channel__c: payload.channel.name,   
             Sender__c: payload.user.name,
-            Timestamp__c: payload.message.ts.split('.')[0],
+            Timestamp__c: parseFloat(payload.message.ts.split('.')[0])*1000,
             Message_Text__c: payload.message.text,
             Insertion_Batch__c: payload.action_ts,
             Slack_Id__c: payload.message.ts,
