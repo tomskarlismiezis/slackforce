@@ -17,7 +17,7 @@ exports.execute = (req, res) => {
     let payload = JSON.parse(req.body.payload),
         slackUserId = payload.user.id,
         oauthObj = auth.getOAuthObject(slackUserId);
-    console.log(payload);
+    //console.log(payload);
 
     let requestBody = convertToString(payload),
         version = 'v0',
@@ -34,7 +34,12 @@ exports.execute = (req, res) => {
 
     //console.log(payload);
     let replies = payload.message.replies,
-        children = ''
+        children = '',
+        thread_id = payload.message.thread_ts;
+
+    if (thread_id == payload.message.ts){
+        thread_id = '';
+    }
 
     for (var repl in replies){
         children :+ repl.ts + ';';
@@ -49,7 +54,8 @@ exports.execute = (req, res) => {
             Message_Text__c: payload.message.text,
             Insertion_Batch__c: payload.action_ts,
             Slack_Id__c: payload.message.ts,
-            Thread_Messages__c: children
+            Thread_Messages__c: children,
+            Thread_Under__c: thread_id
         })
         .then(data => {
             let fields = [];
@@ -108,7 +114,7 @@ exports.execute = (req, res) => {
         result += '&trigger_id=';
         result += encodeURIComponent(input.trigger_id);
         
-
+        console.log(result);
         return result;
     }
 
