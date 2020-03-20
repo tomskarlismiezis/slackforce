@@ -2,8 +2,7 @@
 
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
-    verif = require("./verifying"),
-    SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
+    verif = require("./verifying");
 
 exports.execute = (req, res) => {
     /*

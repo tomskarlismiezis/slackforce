@@ -1,7 +1,7 @@
-const crypto = require('crypto');
-const qs = require('qs');
-// fetch this from environment variables
-const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
+const crypto = require('crypto'),
+    qs = require('qs'),
+    SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
+
 
 module.exports = {
     signVerification : function(req){
