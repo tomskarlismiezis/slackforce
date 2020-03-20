@@ -25,9 +25,10 @@ exports.execute = (req, res) => {
     if (thread_id == payload.message.ts){
         thread_id = '';
     }
-
-    for (var i=0;i<replies.length;i++){
-        children += replies[i].ts + ';';
+    if (replies){
+        for (var i=0;i<replies.length;i++){
+            children += replies[i].ts + ';';
+        }
     }
 
     force.create(oauthObj, "Slack_Conversation__c",
