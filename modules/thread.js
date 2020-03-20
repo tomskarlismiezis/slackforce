@@ -2,8 +2,8 @@
 
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
-    crypto = require("crypto"),
     verif = require("./verifying"),
+    crypto = require("crypto"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
@@ -27,7 +27,6 @@ exports.execute = (req, res) => {
     }
 
     for (var i=0;i<replies.length;i++){
-        console.log(replies[i]);
         children += replies[i].ts + ';';
     }
 
