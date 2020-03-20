@@ -82,37 +82,37 @@ exports.execute = (req, res) => {
     function convertToString(input){
         var result = '';
         result += 'token=';
-        result += encodeURIComponent(input.token);
+        result += (input.token);
         
         result += '&team_id=';
-        result += encodeURIComponent(input.team.id);
+        result += (input.team.id);
 
         result += '&team_domain=';
-        result += encodeURIComponent(input.team.domain);
+        result += (input.team.domain);
 
         result += '&channel_id=';
-        result += encodeURIComponent(input.channel.id);
+        result += (input.channel.id);
 
         result += '&channel_name=';
-        result += encodeURIComponent(input.channel.name);
+        result += (input.channel.name);
 
         result += '&user_id=';
-        result += encodeURIComponent(input.user.id);
+        result += (input.user.id);
 
         result += '&user_name=';
-        result += encodeURIComponent(input.user.name)
+        result += (input.user.name)
 
-        //result += '&command=';
-        //result += encodeURIComponent(input.callback_id);
+        result += '&command=';
+        result += (input.callback_id);
 
         result += '&text=';
-        result += encodeURIComponent(input.message.text);
+        result += (input.message.text);
 
         result += '&response_url=';
         result += encodeURIComponent(input.response_url);
 
         result += '&trigger_id=';
-        result += encodeURIComponent(input.trigger_id);
+        result += (input.trigger_id);
         
         console.log(result);
         return result;
