@@ -25,9 +25,9 @@ exports.execute = (req, res) => {
         //return;
     //}
 
-    let slackUserId = req.body.user_id,
-        oauthObj = auth.getOAuthObject(slackUserId),
-        payload = JSON.parse(req.body.payload);
+    let payload = JSON.parse(req.body.payload),
+        slackUserId = payload.user.id,
+        oauthObj = auth.getOAuthObject(slackUserId);
 
     //console.log(payload);
     let replies = payload.message.replies;
