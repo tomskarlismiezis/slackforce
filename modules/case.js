@@ -103,14 +103,14 @@ exports.execute = (req, res) => {
             res = false;
             return res;
         }
-        if (!slackSigningSecret) {
+        if (!SIGNING_SECRET) {
             res = false;
             console.log('Signing secret is empty');
             return res;
         }
         let sigBasestring = 'v0:' + timestamp + ':' + requestBody;
         let mySignature = 'v0=' + 
-                       crypto.createHmac('sha256', slackSigningSecret)
+                       crypto.createHmac('sha256', SIGNING_SECRET)
                              .update(sigBasestring, 'utf8')
                              .digest('hex');
         if (crypto.timingSafeEqual(
