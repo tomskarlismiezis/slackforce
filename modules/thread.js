@@ -13,9 +13,15 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = convertToString(req.body.payload);
-    var version = 'v0';
-    var baseString = version + ':' + timestamp + ':' + requestBody;
+    
+    let payload = JSON.parse(req.body.payload),
+        slackUserId = payload.user.id,
+        oauthObj = auth.getOAuthObject(slackUserId);
+    console.log(payload);
+
+    let requestBody = convertToString(payload),
+        version = 'v0',
+        baseString = version + ':' + timestamp + ':' + requestBody;
     //console.log(baseString);
     hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
@@ -25,9 +31,6 @@ exports.execute = (req, res) => {
         return;
     }
 
-    let payload = JSON.parse(req.body.payload),
-        slackUserId = payload.user.id,
-        oauthObj = auth.getOAuthObject(slackUserId);
 
     //console.log(payload);
     let replies = payload.message.replies,
