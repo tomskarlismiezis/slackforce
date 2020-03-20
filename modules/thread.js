@@ -102,8 +102,8 @@ exports.execute = (req, res) => {
         result += '&user_name=';
         result += encodeURIComponent(input.user.name)
 
-        result += '&command=';
-        result += encodeURIComponent(input.callback_id);
+        //result += '&command=';
+        //result += encodeURIComponent(input.callback_id);
 
         result += '&text=';
         result += encodeURIComponent(input.message.text);
