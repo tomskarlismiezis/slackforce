@@ -27,6 +27,7 @@ exports.execute = (req, res) => {
     }
 
     for (var repl in replies){
+        console.log(repl);
         children += repl.ts + ';';
     }
 
