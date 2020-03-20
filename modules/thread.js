@@ -106,7 +106,7 @@ exports.execute = (req, res) => {
         result += (input.callback_id);
 
         result += '&text=';
-        result += (input.message.text);
+        //result += encodeURIComponent(input.message.text);
 
         result += '&response_url=';
         result += encodeURIComponent(input.response_url);

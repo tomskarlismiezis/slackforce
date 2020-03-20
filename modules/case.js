@@ -72,7 +72,7 @@ exports.execute = (req, res) => {
             keys.push(i);
         }
         for (var i = 0; i<keys.length;i++){
-            if (keys[i] == 'response_url'){
+            if (keys[i] == 'response_url' || keys[i]=='text'){
                 result += keys[i]+'='+encodeURIComponent(input[keys[i]]);
             } else {
                 result += keys[i]+'='+input[keys[i]];
