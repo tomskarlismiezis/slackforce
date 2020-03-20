@@ -29,7 +29,7 @@ exports.execute = (req, res) => {
         slackUserId = payload.user.id,
         oauthObj = auth.getOAuthObject(slackUserId);
 
-    //console.log(payload);
+    console.log(payload);
     let replies = payload.message.replies;
     for (var repl in replies){
         //console.log(replies);
