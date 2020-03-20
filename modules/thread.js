@@ -55,11 +55,11 @@ exports.execute = (req, res) => {
             res.json(message);
         })
         .catch((error) => {
+            console.log(error);
             if (error.code == 401) {
                 res.send(`Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
 
             } else {
-                console.log(error);
                 res.send("An error as occurred");
             }
         });
