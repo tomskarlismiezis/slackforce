@@ -7,30 +7,7 @@ let auth = require("./slack-salesforce-auth"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
-    /*
-    //console.log('thread being executed');
-    var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
-    var timestamp = req.headers['x-slack-request-timestamp'];
-    //console.log(timestamp*1000 + ' != ' + Date.now());
-    if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
-        return;
-    }
-    
-    //console.log(payload);
 
-    let requestBody = convertToString(payload),
-        version = 'v0',
-        baseString = version + ':' + timestamp + ':' + requestBody;
-    //console.log(baseString);
-    hmac.update(baseString);
-    var hashedString = version + '=' + hmac.digest('hex');
-    if (hashedString != req.headers['x-slack-signature']) {
-        console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
-        res.send("Invalid token");
-        return;
-    }
-
-    */
     
     let payload = JSON.parse(req.body.payload),
         slackUserId = payload.user.id,
@@ -41,7 +18,6 @@ exports.execute = (req, res) => {
         return;
     }
 
-    //console.log(payload);
     let replies = payload.message.replies,
         children = '',
         thread_id = payload.message.thread_ts;
@@ -51,9 +27,8 @@ exports.execute = (req, res) => {
     }
 
     for (var repl in replies){
-        children :+ repl.ts + ';';
+        children += repl.ts + ';';
     }
-    console.log(payload.message.ts.split('.'));
 
     force.create(oauthObj, "Slack_Conversation__c",
         {
