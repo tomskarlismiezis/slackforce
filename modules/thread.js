@@ -3,9 +3,11 @@
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
     crypto = require("crypto"),
+    verif = require("./verifying"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
+    /*
     //console.log('thread being executed');
     var hmac = crypto.createHmac('sha256', SIGNING_SECRET);
     var timestamp = req.headers['x-slack-request-timestamp'];
@@ -31,6 +33,13 @@ exports.execute = (req, res) => {
         return;
     }
 
+    */
+
+    
+    if (!verif.signVerification(req)){
+        console.log('verification failed');
+        return;
+    }
 
     //console.log(payload);
     let replies = payload.message.replies,
@@ -77,45 +86,5 @@ exports.execute = (req, res) => {
                 res.send("An error as occurred");
             }
         });
-
-
-    function convertToString(input){
-        var result = '';
-        result += 'token=';
-        result += (input.token);
-        
-        result += '&team_id=';
-        result += (input.team.id);
-
-        result += '&team_domain=';
-        result += (input.team.domain);
-
-        result += '&channel_id=';
-        result += (input.channel.id);
-
-        result += '&channel_name=';
-        result += (input.channel.name);
-
-        result += '&user_id=';
-        result += (input.user.id);
-
-        result += '&user_name=';
-        result += (input.user.name)
-
-        result += '&command=';
-        result += (input.callback_id);
-
-        result += '&text=';
-        //result += encodeURIComponent(input.message.text);
-
-        result += '&response_url=';
-        result += encodeURIComponent(input.response_url);
-
-        result += '&trigger_id=';
-        result += (input.trigger_id);
-        
-        console.log(result);
-        return result;
-    }
 
 };

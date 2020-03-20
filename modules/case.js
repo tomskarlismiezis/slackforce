@@ -2,8 +2,7 @@
 
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
-    crypto = require("crypto"),
-    qs = require('qs'),
+    verif = require("./verifying"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
@@ -28,7 +27,7 @@ exports.execute = (req, res) => {
     }
     */
    //verif.
-    if (!signVerification(req)){
+    if (!verif.signVerification(req)){
         console.log('verification failed');
         return;
     }
