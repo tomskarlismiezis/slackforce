@@ -30,10 +30,13 @@ exports.execute = (req, res) => {
         oauthObj = auth.getOAuthObject(slackUserId);
 
     //console.log(payload);
-    let replies = payload.message.replies;
+    let replies = payload.message.replies,
+        children = ''
+
     for (var repl in replies){
-        //console.log(replies);
+        children :+ repl.ts + ';';
     }
+    console.log(payload.message.ts.split('.'));
 
     force.create(oauthObj, "Slack_Conversation__c",
         {
@@ -41,7 +44,9 @@ exports.execute = (req, res) => {
             Sender__c: payload.user.name,
             Timestamp__c: payload.message.ts.split('.')[0],
             Message_Text__c: payload.message.text,
-            Insertion_Batch__c: payload.action_ts
+            Insertion_Batch__c: payload.action_ts,
+            Slack_Id__c: payload.message.ts,
+            Thread_Messages__c: children
         })
         .then(data => {
             let fields = [];
