@@ -11,7 +11,7 @@ let getUserId = (oauth) => (typeof(oauth) !== 'undefined') ? oauth.id.split('/')
 let sfrequest = (oauth, path, options) => new Promise((resolve, reject) => {
 
     if (!oauth || (!oauth.access_token && !oauth.refresh_token)) {
-        console.log(oath);
+        console.log(oauth);
         reject({code: 401});
         return;
     }
