@@ -59,6 +59,7 @@ exports.execute = (req, res) => {
                 res.send(`Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
 
             } else {
+                console.log(error);
                 res.send("An error as occurred");
             }
         });
