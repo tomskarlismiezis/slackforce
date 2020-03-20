@@ -39,8 +39,8 @@ exports.execute = (req, res) => {
             Message_Text__c: payload.message.text,
             Insertion_Batch__c: payload.action_ts,
             Slack_Id__c: payload.message.ts,
-            Thread_Messages__c: children,
-            Thread_Under__c: thread_id
+            Thread_Messages__c: children//,
+            //Thread_Under__c: thread_id
         })
         .then(data => {
             let fields = [];
