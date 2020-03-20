@@ -13,23 +13,23 @@ exports.execute = (req, res) => {
     if (Math.abs(Date.now() - timestamp*1000) > 60*5*1000){
         return;
     }
-    var requestBody = convertToString(req.body);
+    var requestBody = convertToString(req.body.payload);
     var version = 'v0';
     var baseString = version + ':' + timestamp + ':' + requestBody;
     //console.log(baseString);
     hmac.update(baseString);
     var hashedString = version + '=' + hmac.digest('hex');
-    //if (hashedString != req.headers['x-slack-signature']) {
-        //console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
-        //res.send("Invalid token");
-        //return;
-    //}
+    if (hashedString != req.headers['x-slack-signature']) {
+        console.log(hashedString + ' != ' + req.headers['x-slack-signature']);
+        res.send("Invalid token");
+        return;
+    }
 
     let payload = JSON.parse(req.body.payload),
         slackUserId = payload.user.id,
         oauthObj = auth.getOAuthObject(slackUserId);
 
-    console.log(payload);
+    //console.log(payload);
     let replies = payload.message.replies;
     for (var repl in replies){
         //console.log(replies);
@@ -67,20 +67,40 @@ exports.execute = (req, res) => {
 
     function convertToString(input){
         var result = '';
-        var keys = [];
-        for (var i in input){
-            keys.push(i);
-        }
-        for (var i = 0; i<keys.length;i++){
-            if (keys[i] == 'response_url'){
-                result += keys[i]+'='+encodeURIComponent(input[keys[i]]).replace(/%26/g,'&');;
-            } else {
-                result += keys[i]+'='+input[keys[i]];
-            }
-            if (i+1 != keys.length){
-                result += '&';
-            }
-        }
+        result += 'token=';
+        result += encodeURIComponent(input.token);
+        
+        result += '&team_id=';
+        result += encodeURIComponent(input.team.id);
+
+        result += '&team_domain=';
+        result += encodeURIComponent(input.team.domain);
+
+        result += '&channel_id=';
+        result += encodeURIComponent(input.channel.id);
+
+        result += '&channel_name=';
+        result += encodeURIComponent(input.channel.name);
+
+        result += '&user_id=';
+        result += encodeURIComponent(input.user.id);
+
+        result += '&user_name=';
+        result += encodeURIComponent(input.user.name)
+
+        result += '&command=';
+        result += encodeURIComponent(input.callback_id);
+
+        result += '&text=';
+        result += encodeURIComponent(input.message.text);
+
+        result += '&response_url=';
+        result += encodeURIComponent(input.response_url);
+
+        result += '&trigger_id=';
+        result += encodeURIComponent(input.trigger_id);
+        
+
         return result;
     }
 
