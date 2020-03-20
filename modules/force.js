@@ -9,13 +9,13 @@ let getUserId = (oauth) => (typeof(oauth) !== 'undefined') ? oauth.id.split('/')
  * Core function to make REST calls to Salesforce
  */
 let sfrequest = (oauth, path, options) => new Promise((resolve, reject) => {
-
+    console.log('in sfrequest');
     if (!oauth || (!oauth.access_token && !oauth.refresh_token)) {
-        console.log(oauth);
         reject({code: 401});
         return;
     }
 
+    console.log('past oauth gate');
     options = options || {};
 
     options.method = options.method || 'GET';
@@ -24,14 +24,15 @@ let sfrequest = (oauth, path, options) => new Promise((resolve, reject) => {
     if (path.charAt(0) !== '/') {
         path = '/' + options.path;
     }
+    
+    console.log('before headers');
 
     options.url = oauth.instance_url + path;
 
     options.headers = options.headers || {};
-
     options.headers["Accept"]= "application/json";
     options.headers["Authorization"] = "Bearer " + oauth.access_token;
-
+    console.log('past headers');
     request(options, function (error, response, body) {
         console.log('in request()');
         if (error) {
