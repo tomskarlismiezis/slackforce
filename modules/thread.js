@@ -20,15 +20,14 @@ exports.execute = (req, res) => {
 
     let replies = payload.message.replies,
         children = '',
-        thread_id = payload.message.thread_ts;
+        thread_id = payload.message.thread_ts,
+        parent = false;
 
-    if (thread_id == payload.message.ts){
-        thread_id = '';
-    }
+    //if (thread_id == payload.message.ts){
+    //    thread_id = '';
+    //}
     if (replies){
-        for (var i=0;i<replies.length;i++){
-            children += replies[i].ts + ';';
-        }
+        parent = true;
     }
 
     force.create(oauthObj, "Slack_Conversation__c",
@@ -39,8 +38,8 @@ exports.execute = (req, res) => {
             Message_Text__c: payload.message.text,
             Insertion_Batch__c: payload.action_ts,
             Slack_Id__c: payload.message.ts,
-            Thread_Messages__c: children//,
-            //Thread_Under__c: thread_id
+            Thread_ID__c: payload.message.thread_ts,
+            Is_Parent_Message__c: parent
         })
         .then(data => {
             let fields = [];
