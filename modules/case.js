@@ -5,7 +5,6 @@ let auth = require("./slack-salesforce-auth"),
     verif = require("./verifying");
 
 exports.execute = (req, res) => {
-    console.log(res);
     if (!verif.signVerification(req)){
         console.log('verification failed');
         return;

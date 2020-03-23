@@ -7,8 +7,6 @@ let auth = require("./slack-salesforce-auth"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
-    console.log(res);
-    
     let payload = JSON.parse(req.body.payload),
         slackUserId = payload.user.id,
         oauthObj = auth.getOAuthObject(slackUserId);
@@ -29,6 +27,12 @@ exports.execute = (req, res) => {
     if (replies){
         parent = true;
     }
+    res.body.channel_id = payload.channel.id;
+    res.body.channel_name = payload.channel.name;
+    res.body.user_id = payload.user.id;
+    res.body.user_name = payload.user.name;
+    res.body.response_url = payload.response_url;
+    
 
     force.create(oauthObj, "Slack_Conversation__c",
         {
