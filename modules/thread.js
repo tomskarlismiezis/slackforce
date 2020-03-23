@@ -48,16 +48,8 @@ exports.execute = (req, res) => {
                     {color: "#F2CF5B", fields: fields}
                 ]
             };
-            //res.json(message);
-                    
-            res.ServerResponse.body.channel_id = payload.channel.id;
-            res.ServerResponse.body.channel_name = payload.channel.name;
-            res.ServerResponse.body.user_id = payload.user.id;
-            res.ServerResponse.body.user_name = payload.user.name;
-            res.ServerResponse.body.response_url = payload.response_url;
-            res.ServerResponse.body.trigger_id = payload.trigger_id;
-
-            res.send('Message created, make sure to add the correct case in Salesforce: ' + oauthObj.instance_url + '/' + data.id);
+            res.json(message);
+        
         })
         .catch((error) => {
             console.log(error);
