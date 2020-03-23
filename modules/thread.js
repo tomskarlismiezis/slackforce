@@ -7,7 +7,7 @@ let auth = require("./slack-salesforce-auth"),
     SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
 
 exports.execute = (req, res) => {
-
+    console.log(res);
     
     let payload = JSON.parse(req.body.payload),
         slackUserId = payload.user.id,
