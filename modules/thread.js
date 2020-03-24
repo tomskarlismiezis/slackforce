@@ -17,6 +17,11 @@ function postMessage(url, text){
             "response_type": "ephemeral"
         }
     }
+    request(options, function(err, res, body) {
+        if (err){
+            console.log(err);
+        }
+    });
     
 }
 
