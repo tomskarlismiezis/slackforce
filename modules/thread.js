@@ -3,9 +3,7 @@
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
     verif = require("./verifying"),
-    crypto = require("crypto"),
-    request = require("request"),
-    SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
+    request = require("request");
 
 
 exports.execute = (req, res) => {
@@ -19,8 +17,6 @@ exports.execute = (req, res) => {
     }
 
     let replies = payload.message.replies,
-        children = '',
-        thread_id = payload.message.thread_ts,
         parent = false,
         response_url = payload.response_url;
 
@@ -52,17 +48,18 @@ exports.execute = (req, res) => {
                 ]
             };
             request.post(response_url, message);
-            //res.json(message);
+            res.json(message);
         
         })
         .catch((error) => {
             if (error.code == 401) {
-                //res.send();
+                res.send(`Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
                 
                 request.post(response_url, `Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
 
             } else {
                 console.log(error);
+                res.send("An error as occurred");
                 request.post(response_url, "An error as occurred");
             }
         });
