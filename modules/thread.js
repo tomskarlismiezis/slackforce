@@ -63,7 +63,7 @@ exports.execute = (req, res) => {
 
             } else {
                 console.log(error);
-                res.send("An error as occurred");
+                request.post(response_url, "An error as occurred");
             }
         });
 
