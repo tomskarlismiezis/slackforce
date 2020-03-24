@@ -5,6 +5,20 @@ let auth = require("./slack-salesforce-auth"),
     verif = require("./verifying"),
     request = require("request");
 
+function postMessage(url, text){
+    var options = {
+        "url": url,
+        "method":'POST',
+        "headers" :{
+            "content-type": "application/json"
+        },
+        "body":{
+            "text": text,
+            "response_type": "ephemeral"
+        }
+    }
+    
+}
 
 exports.execute = (req, res) => {
     let payload = JSON.parse(req.body.payload),
@@ -25,7 +39,7 @@ exports.execute = (req, res) => {
     //}
     if (replies){
         parent = true;
-    }
+    } 
 
     force.create(oauthObj, "Slack_Conversation__c",
         {
@@ -39,15 +53,8 @@ exports.execute = (req, res) => {
             Is_Parent_Message__c: parent
         })
         .then(data => {
-            let fields = [];
-            fields.push({title: "make sure to add the correct case in Salesforce:", value: oauthObj.instance_url + "/" + data.id, short:false});
-            let message = {
-                text: 'Message created, ',
-                attachments: [
-                    {color: "#F2CF5B", fields: fields}
-                ]
-            };
-            request.post(response_url, message);
+            let message = "Message created, make sure to add the correct case in Salesforce: " + oauthObj.instance_url + "/" + data.id;
+            postMessage(response_url, message);
             res.json(message);
         
         })
@@ -55,12 +62,12 @@ exports.execute = (req, res) => {
             if (error.code == 401) {
                 res.send(`Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
                 
-                request.post(response_url, `Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
+                postMessage(response_url, `Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
 
             } else {
                 console.log(error);
                 res.send("An error as occurred");
-                request.post(response_url, "An error as occurred");
+                postMessage(response_url, "An error as occurred");
             }
         });
 
