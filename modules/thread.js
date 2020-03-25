@@ -6,18 +6,18 @@ let auth = require("./slack-salesforce-auth"),
     request = require("request");
 
 function postMessage(url, text){
-    var options = {
-        "uri": url,
-        "method":'POST',
-        "headers" :{
-            "content-type": "application/json"
+    const options = {
+        url: url,
+        method:'POST',
+        headers: {
+            'Content-type': 'application/json'
         },
-        "body":{
-            "text": text,
-            "response_type": "ephemeral"
+        body:{
+            text: text,
+            response_type: "ephemeral"
         }
     }
-    request(JSON.stringify(options), function(err, res, body) {
+    request(options, function(err, res, body) {
         if (err){
             console.log(err);
         }
