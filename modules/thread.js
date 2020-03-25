@@ -39,6 +39,7 @@ exports.execute = (req, res) => {
         parent = false,
         response_url = payload.response_url;
 
+        console.log(payload);
     //if (thread_id == payload.message.ts){
     //    thread_id = '';
     //}
@@ -52,7 +53,6 @@ exports.execute = (req, res) => {
             Sender__c: payload.user.name,
             Timestamp__c: parseFloat(payload.message.ts.split('.')[0])*1000,
             Message_Text__c: payload.message.text,
-            Insertion_Batch__c: payload.action_ts,
             Slack_Id__c: payload.message.ts,
             Thread_ID__c: payload.message.thread_ts,
             Is_Parent_Message__c: parent
