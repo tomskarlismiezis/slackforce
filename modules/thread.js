@@ -9,14 +9,13 @@ function postMessage(url, text){
     const options = {
         url: url,
         method:'POST',
-        json: true,
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
+        json: {
             text: text,
             response_type: "ephemeral"
-        })
+        },
+        headers: {
+            'content-type': 'application/json'
+        }
     }
     request(options, function(err, res, body) {
         if (err){
