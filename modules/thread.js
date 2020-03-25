@@ -7,7 +7,7 @@ let auth = require("./slack-salesforce-auth"),
 
 function postMessage(url, text){
     var options = {
-        "uri": url.parse(),
+        "uri": url,
         "method":'POST',
         "headers" :{
             "content-type": "application/json"
