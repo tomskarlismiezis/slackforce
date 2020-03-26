@@ -39,7 +39,7 @@ exports.execute = (req, res) => {
         parent = false,
         response_url = payload.response_url;
 
-        console.log(payload);
+        //console.log(payload);
     //if (thread_id == payload.message.ts){
     //    thread_id = '';
     //}
@@ -47,12 +47,12 @@ exports.execute = (req, res) => {
         parent = true;
     } 
 
-    force.create(oauthObj, "Slack_Conversation__c",
+    force.upsert(oauthObj, "Slack_Conversation__c", "Slack_Id__c", payload.message.ts,
         {
             Channel__c: payload.channel.name,   
-            Sender__c: payload.user.name,
+            Sender__c: payload.message.user,
             Timestamp__c: parseFloat(payload.message.ts.split('.')[0])*1000,
-            Message_Text__c: payload.message.text,
+            Message_Text__c: encodeURI(payload.message.text),
             Slack_Id__c: payload.message.ts,
             Thread_ID__c: payload.message.thread_ts,
             Is_Parent_Message__c: parent
