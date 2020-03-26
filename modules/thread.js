@@ -47,7 +47,7 @@ exports.execute = (req, res) => {
         parent = true;
     } 
 
-    force.upsert(oauthObj, "Slack_Conversation__c", "Slack_Id__c", payload.message.ts,
+    force.create(oauthObj, "Slack_Conversation__c",
         {
             Channel__c: payload.channel.name,   
             Sender__c: payload.message.user,
