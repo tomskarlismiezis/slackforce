@@ -118,7 +118,7 @@ let del = (oauth, objectName, id) => sfrequest(oauth, '/services/data/' + API_VE
 /**
  * Convenience function to upsert a record
  */
-let upsert = (objectName, externalIdField, externalId, data) => sfrequest(oauth, '/services/data/' + API_VERSION + '/sobjects/' + objectName + '/' + externalIdField + '/' + externalId,
+let upsert = (oauth, objectName, externalIdField, externalId, data) => sfrequest(oauth, '/services/data/' + API_VERSION + '/sobjects/' + objectName + '/' + externalIdField + '/' + externalId,
     {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
